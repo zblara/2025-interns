@@ -11,7 +11,8 @@ To do list:
 5. Run script #3, again please check if you have the prerequisites needed.
 
 3. Script #4: Create a workflow/pipeline that annotates the cleaned/filtered reads for antimicrobial resistance genes (AMR).
-      You will use the output of script #3 (taxonomic annotation) and #4 (AMR annotation) as input to make the bipartite graph.
+	(Hint: https://github.com/zblara/DugesiaAMR)
+4. You will use the output of script #3 (taxonomic annotation) and #4 (AMR annotation) as input to make the bipartite graph.
       Feel free to use any tool you would like, such as gephi, igraph, or whatever package.
 
 
