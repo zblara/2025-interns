@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ＰＤＰ３ Ｍｅｔａｇｅｎｏｍｉｃｓ Ｃｌａｓｓｉｆｉｃａｔｉｏｎ Ｐｉｐｅｌｉｎｅ
+  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｃｌａｓｓｉｆｉｃａｔｉｏｎ Ｐｉｐｅｌｉｎｅ
 
   This bash script is optimized for the taxonomic classification of filtered reads.
 
@@ -75,7 +75,6 @@ for file in "${DIR}/filtered_concatenated/"*_filtered_concatenated.fastq.gz; do
         echo -e "\nAttempting to perform alignment.\n" $(date -u)
         
         # Define the output filenames for mapping
-        ## Accepts concatenated files within treatment groups, separated by week. 
 		kraken2_output="${DIR}/classification/kraken2_fc_${DB}/${BASE}.kraken.out" 
 		kreport="${DIR}/classification/kraken2_fc_${DB}/${BASE}_filtered.kreport"
 		export KRAKEN2_DB_PATH=/media/zbl/Storage/db/kraken2_standard
@@ -86,13 +85,13 @@ for file in "${DIR}/filtered_concatenated/"*_filtered_concatenated.fastq.gz; do
         fi
         
         # Execute the command for paired-end mapping
-        kraken2 --db "${DB}" --quick --threads 12 --report-zero-counts \
+        kraken2 --db "${DB}" --quick --threads 8 --report-zero-counts \
         --use-names --output "$kraken2_output" \
         --report "${BASE}.kreport" "$file"
         
         # Move Kraken2 Reports to folder
 		echo "Copying Kraken2 Reports to folder" $(date -u)
-		mv "/home/zbl/${BASE}.kreport" "$kreport"
+		mv "/mnt/d/Guiuan/${BASE}.kreport" "$kreport"
         
         # Check for successful mapping i/o files
         if ! check_success "$kreport" "kraken2 report file $kreport"; then
@@ -111,7 +110,7 @@ for krakenreport in "${DIR}/classification/kraken2_fc_${DB}/"*.kreport; do
 
 		echo -e "\nAttempting to perform estimation of abundance.\n" $(date -u)
 
-		kmer_distr= "/media/zbl/Storage/db/kraken2_standard/standard8/database150mers.kmer_distrib"
+		kmer_distr= "/mnt/d/Guiuan/db/kraken2_standard/standard8/database150mers.kmer_distrib"
 		kraken2_input="${DIR}/classification/kraken2_fc_${DB}/${BASE}_fc_${DB}.kreport"
 		bracken_output= "${DIR}/classification/bracken_fc_${DB}/${BASE}_fc_${DB}.bracken"
 		export KRAKEN2_DB_PATH=/media/zbl/Storage/db/kraken2_standard
@@ -121,7 +120,7 @@ for krakenreport in "${DIR}/classification/kraken2_fc_${DB}/"*.kreport; do
             continue
         fi
                 
-		python "/home/zbl/src/est_abundance.py" -i "$kraken2_input" \
+		python "/mnt/d/Guiuan/Bracken-master/src/est_abundance.py" -i "$kraken2_input" \
 		-k "$kmer_distr" -o "$bracken_output"
 		
 		# Check for successful mapping i/o files
