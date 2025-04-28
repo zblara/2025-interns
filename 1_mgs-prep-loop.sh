@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ＰＤＰ３ Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
+  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
 
   This bash script is optimized for the preprocessing of raw metagenomic 
 	reads from Illumina sequencing (PGC).
@@ -66,12 +66,13 @@ conda env list &&
 echo -e "Attempting to process files.\n"
 
 # Loop through all R1 files matching the pattern *_R1_001.fastq.gz
-for R1_file in "${DIR}/raw/"*_R1_001.fastq.gz; do
+for R1_file in "${DIR}/raw/"*_R1_001.fastq.gz; dofor R1_file in "${DIR}/raw/"*_1.fq.gz; do
+    
     # Extract BASE from the R1 filename
-    BASE=$(basename "$R1_file" | cut -d '_' -f 1,2)
+    BASE=$(basename "$R1_file" _1.fq.gz)
 
     # Construct the corresponding R2 filename
-    R2_file="${R1_file/_R1_/_R2_}"
+    R2_file="${DIR}/raw/${BASE}_2.fq.gz"
 
     # Check if the corresponding R2 file exists
     if [ -e "$R2_file" ]; then
@@ -93,26 +94,26 @@ for R1_file in "${DIR}/raw/"*_R1_001.fastq.gz; do
                 
         # Execute the command for paired-end qc
         fastp -i "$R1_file" -o "$qc_output_R1" -I "$R2_file" -O "$qc_output_R2" \
-        --correction -p -w 12 --dedup -R "$json" -h "$html_report" &&
+        --correction -p -w 8 --dedup -R "$json" -h "$html_report" &&
     	
     	# MAPPING
-		echo -e "\nAttempting to perform filtering of mouse genome from reads.\n" $(date -u)
+		echo -e "\nAttempting to perform filtering of human genome from reads.\n" $(date -u)
         
         # Define the output filenames for mapping      
-		sam_file="${DIR}/filter_mouse/${BASE}_filter_mouse_bt2.sam"
-		log_file="${DIR}/filter_mouse/${BASE}_filter.stats.log"       
-		filtered_1="${DIR}/filter_mouse/${BASE}_filtered_R1.fastq.gz"
-		filtered_2="${DIR}/filter_mouse/${BASE}_filtered_R2.fastq.gz"		
+		sam_file="${DIR}/filter_human/${BASE}_filter_mouse_bt2.sam"
+		log_file="${DIR}/filter_human/${BASE}_filter.stats.log"       
+		filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
+		filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"		
         
         # Execute the command for paired-end mapping
-        (bowtie2 -x balbc -1 "$qc_output_R1" -2 "$qc_output_R2" \
-		--fast -p 12  -t --no-unal --un-conc-gz "${BASE}_filtered" \
+        (bowtie2 -x GRCh38 -1 "$qc_output_R1" -2 "$qc_output_R2" \
+		--fast -p 8  -t --no-unal --un-conc-gz "${BASE}_filtered" \
 		-S "$sam_file") 2> "$log_file" && \
 		
 		echo -e "\nCopying mapped reads to folder.\n" $(date -u)
 		
-		mv "/home/zbl/${BASE}_filtered.1" "$filtered_1" & \
-		mv "/home/zbl/${BASE}_filtered.2" "$filtered_2" &&
+		mv "/home/zach_/${BASE}_filtered.1" "$filtered_1" & \
+		mv "/home/zach_/${BASE}_filtered.2" "$filtered_2" &&
 		
 		# Check if mapping i/o files already exist
         if ! check_success "$filtered_2" "filtered output file $filtered_2"; then
