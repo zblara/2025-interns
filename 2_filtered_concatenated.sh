@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ＰＤＰ３ Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
+  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
 
   This bash script is optimized for concatenating paired-end filtered reads.
 
@@ -63,9 +63,9 @@ concatenate_reads() {
         echo -e "\nConcatenating paired end reads for $BASE.\n" $(date -u)
         
         # Define the output filenames for mapping
-        filtered_1="${DIR}/filter_mouse/${BASE}_filtered_R1.fastq.gz"
-        filtered_2="${DIR}/filter_mouse/${BASE}_filtered_R2.fastq.gz"
-        concatenated="${DIR}/filter_mouse/${BASE}_filtered_concatenated.fastq.gz"
+        filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
+        filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"
+        concatenated="${DIR}/filter_human/${BASE}_filtered_concatenated.fastq.gz"
         
     		check_file() {
     		if [ -f "$1" ]; then
@@ -97,7 +97,7 @@ concatenate_reads() {
 export -f concatenate_reads
 
 # Find all R1 files and pass them to xargs to run in parallel
-find "${DIR}/filter_mouse/" -type f -name "*_R1.fastq.gz" | xargs -I {} -P "12" bash -c 'concatenate_reads "$@"' _ "{}" "${DIR}"
+find "${DIR}/filter_human/" -type f -name "*_R1.fastq.gz" | xargs -I {} -P "4" bash -c 'concatenate_reads "$@"' _ "{}" "${DIR}"
 
 # After the script finishes, use "cat" if you wish to further group files.
 # Example: "cat A1_1_filtered_concatenated.fastq.gz A2_1_filtered_concatenated.fastq.gz .... \
