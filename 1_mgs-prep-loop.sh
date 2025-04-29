@@ -107,7 +107,7 @@ for R1_file in "${DIR}/raw/"*_1.fq.gz; do
 
 		# Execute the command for paired-end mapping
 		(bowtie2 -x GRCh38 -1 "$qc_output_R1" -2 "$qc_output_R2" \
-		--fast -p 8 -t --no-unal --un-conc-gz "${BASE}_filtered" \
+		--fast-local -p 8 -t --no-unal --un-conc-gz "${BASE}_filtered" \
 		-S "$sam_file") 2> "$log_file" &&
 
 		echo -e "\nCopying mapped reads to folder.\n" $(date -u)
