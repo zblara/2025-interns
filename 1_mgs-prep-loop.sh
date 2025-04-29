@@ -102,7 +102,8 @@ for R1_file in "${DIR}/raw/"*_1.fq.gz; do
 		sam_file="${DIR}/filter_human/${BASE}_filter_mouse_bt2.sam"
 		log_file="${DIR}/filter_human/${BASE}_filter.stats.log"       
 		filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
-		filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"		
+		filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"
+  		export BOWTIE2_INDEXES="${DIR}/db"
 
 		# Execute the command for paired-end mapping
 		(bowtie2 -x GRCh38 -1 "$qc_output_R1" -2 "$qc_output_R2" \
