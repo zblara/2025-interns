@@ -66,7 +66,7 @@ conda env list &&
 echo -e "Attempting to process files.\n"
 
 # Loop through all R1 files matching the pattern *_R1_001.fastq.gz
-for R1_file in "${DIR}/raw/"*_R1_001.fastq.gz; dofor R1_file in "${DIR}/raw/"*_1.fq.gz; do
+for R1_file in "${DIR}/raw/"*_1.fq.gz; do
     
     # Extract BASE from the R1 filename
     BASE=$(basename "$R1_file" _1.fq.gz)
