@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
+  ZBL Metagenomics Pre-processing Pipeline
 
   This bash script is optimized for concatenating paired-end filtered reads.
 
@@ -52,7 +52,7 @@ concatenate_reads() {
     local DIR="$2"
 
     # Extract BASE from the R1 filename
-    BASE=$(basename "$R1_file" | cut -d '_' -f 1,2)
+    BASE=$(basename "$R1_file" | cut -d '_' -f 1)
 
     # Construct the corresponding R2 filename
     R2_file="${R1_file/_R1_/_R2_}"
