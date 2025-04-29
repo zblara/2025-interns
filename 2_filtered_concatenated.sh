@@ -65,7 +65,7 @@ concatenate_reads() {
         # Define the output filenames for mapping
         filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
         filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"
-        concatenated="${DIR}/filter_human/${BASE}_filtered_concatenated.fastq.gz"
+        concatenated="${DIR}/filtered_concatenated/${BASE}_filtered_concatenated.fastq.gz"
         
     		check_file() {
     		if [ -f "$1" ]; then
