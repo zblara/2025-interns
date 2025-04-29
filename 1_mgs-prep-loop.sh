@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｐｒｅ－ｐｒｏｃｅｓｓｉｎｇ Ｐｉｐｅｌｉｎｅ
+  ZBL Metagenomics Pre-processing Pipeline
 
   This bash script is optimized for the preprocessing of raw metagenomic 
 	reads from Illumina sequencing (PGC).
@@ -55,7 +55,7 @@ read -p "Enter PATH to files: " DIR
 	
 	echo "Creating output directories."
 	mkdir "${DIR}/clean"
-	mkdir -p "${DIR}/filter_mouse"
+	mkdir -p "${DIR}/filter_human"
 
 #Activate conda environment
 echo -e "\nActivating metagenomics conda environment."
@@ -87,40 +87,42 @@ for R1_file in "${DIR}/raw/"*_1.fq.gz; do
         html_report="${DIR}/clean/${BASE}_fastp_report.html"
         
         # Check if QC output files already exist
-        if ! check_file "$qc_output_R1" "QC output file $qc_output_R1" && \
-           ! check_file "$qc_output_R2" "QC output file $qc_output_R2"; then
-            continue
-        fi
-                
-        # Execute the command for paired-end qc
-        fastp -i "$R1_file" -o "$qc_output_R1" -I "$R2_file" -O "$qc_output_R2" \
-        --correction -p -w 8 --dedup -R "$json" -h "$html_report" &&
-    	
-    	# MAPPING
+		if [[ -f "$qc_output_R1" && -f "$qc_output_R2" ]]; then
+			echo -e "\nQC outputs already exist for $BASE. Skipping fastp QC step.\n" $(date -u)
+		else
+			# Execute the command for paired-end qc
+			fastp -i "$R1_file" -o "$qc_output_R1" -I "$R2_file" -O "$qc_output_R2" \
+			--correction -p -w 8 --dedup -R "$json" -h "$html_report"
+		fi
+
+		# MAPPING
 		echo -e "\nAttempting to perform filtering of human genome from reads.\n" $(date -u)
-        
-        # Define the output filenames for mapping      
+
+		# Define the output filenames for mapping      
 		sam_file="${DIR}/filter_human/${BASE}_filter_mouse_bt2.sam"
 		log_file="${DIR}/filter_human/${BASE}_filter.stats.log"       
 		filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
 		filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"		
-        
-        # Execute the command for paired-end mapping
-        (bowtie2 -x GRCh38 -1 "$qc_output_R1" -2 "$qc_output_R2" \
-		--fast -p 8  -t --no-unal --un-conc-gz "${BASE}_filtered" \
-		-S "$sam_file") 2> "$log_file" && \
-		
+
+		# Execute the command for paired-end mapping
+		(bowtie2 -x GRCh38 -1 "$qc_output_R1" -2 "$qc_output_R2" \
+		--fast -p 8 -t --no-unal --un-conc-gz "${BASE}_filtered" \
+		-S "$sam_file") 2> "$log_file" &&
+
 		echo -e "\nCopying mapped reads to folder.\n" $(date -u)
-		
-		mv "/home/zach_/${BASE}_filtered.1" "$filtered_1" & \
-		mv "/home/zach_/${BASE}_filtered.2" "$filtered_2" &&
-		
+
+		mv "${DIR}/${BASE}_filtered.1" "$filtered_1" & 
+		mv "${DIR}/${BASE}_filtered.2" "$filtered_2" &&
+
 		# Check if mapping i/o files already exist
-        if ! check_success "$filtered_2" "filtered output file $filtered_2"; then
-            continue
-        fi        	
-        
-    	echo -e "\n$BASE pre-processing finished" $(date -u) &&
+		if ! check_success "$filtered_2" "filtered output file $filtered_2"; then
+			continue
+		fi        	
+				
+		echo -e "\n$BASE pre-processing finished" $(date -u)
+
+# add verbose option to track progress
+echo "Processed paired-end files for $BASE." $(date -u)
         
         #add verbose option to track progress
         echo "Processed paired-end files for $BASE."  $(date -u)
