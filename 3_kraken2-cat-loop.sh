@@ -113,7 +113,7 @@ for krakenreport in "${DIR}/classification/kraken2_fc_${DB}/"*.kreport; do
 		kmer_distr= "/mnt/d/Guiuan/db/kraken2_standard/standard8/database150mers.kmer_distrib"
 		kraken2_input="${DIR}/classification/kraken2_fc_${DB}/${BASE}_fc_${DB}.kreport"
 		bracken_output= "${DIR}/classification/bracken_fc_${DB}/${BASE}_fc_${DB}.bracken"
-		export KRAKEN2_DB_PATH=/media/zbl/Storage/db/kraken2_standard
+		export KRAKEN2_DB_PATH="${DIR}/db/${DB}"
 		
         # Check if mapping i/o files already exist
         if ! check_file "$bracken_output" "bracken output $bracken_output" ; then
