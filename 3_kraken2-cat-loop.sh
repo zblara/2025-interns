@@ -4,7 +4,7 @@ SECONDS=0
 
 echo -e "#####################################################################################
 
-  ZBL Ｍｅｔａｇｅｎｏｍｉｃｓ Ｃｌａｓｓｉｆｉｃａｔｉｏｎ Ｐｉｐｅｌｉｎｅ
+  ZBL Metagenomics Classification Pipeline
 
   This bash script is optimized for the taxonomic classification of filtered reads.
 
@@ -77,7 +77,7 @@ for file in "${DIR}/filtered_concatenated/"*_filtered_concatenated.fastq.gz; do
         # Define the output filenames for mapping
 		kraken2_output="${DIR}/classification/kraken2_fc_${DB}/${BASE}.kraken.out" 
 		kreport="${DIR}/classification/kraken2_fc_${DB}/${BASE}_filtered.kreport"
-		export KRAKEN2_DB_PATH=/media/zbl/Storage/db/kraken2_standard
+		export KRAKEN2_DB_PATH="${DIR}/db/"
         
         # Check if mapping i/o files already exist
         if ! check_file "$kraken2_output" "kraken2 output $kraken2_output" ; then
@@ -110,17 +110,16 @@ for krakenreport in "${DIR}/classification/kraken2_fc_${DB}/"*.kreport; do
 
 		echo -e "\nAttempting to perform estimation of abundance.\n" $(date -u)
 
-		kmer_distr= "/mnt/d/Guiuan/db/kraken2_standard/standard8/database150mers.kmer_distrib"
-		kraken2_input="${DIR}/classification/kraken2_fc_${DB}/${BASE}_fc_${DB}.kreport"
-		bracken_output= "${DIR}/classification/bracken_fc_${DB}/${BASE}_fc_${DB}.bracken"
-		export KRAKEN2_DB_PATH="${DIR}/db/${DB}"
+		kmer_distr="${DIR}/db/${DB}/database150mers.kmer_distrib"
+		bracken_output="${DIR}/classification/bracken_fc_${DB}/${BASE}_fc_${DB}.bracken"
+		export KRAKEN2_DB_PATH="${DIR}/db/"
 		
         # Check if mapping i/o files already exist
         if ! check_file "$bracken_output" "bracken output $bracken_output" ; then
             continue
         fi
                 
-		python "/mnt/d/Guiuan/Bracken-master/src/est_abundance.py" -i "$kraken2_input" \
+		python "/mnt/d/Guiuan/Bracken-master/src/est_abundance.py" -i "$kreport" \
 		-k "$kmer_distr" -o "$bracken_output"
 		
 		# Check for successful mapping i/o files
