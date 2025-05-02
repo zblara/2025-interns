@@ -1,0 +1,4 @@
+﻿Sample,Coordinates,Elevation,pH,Organic Matter (%),Nitrogen (%),Phoshorous (mg/kg),Electrical Conductivity (uS/cm),Potassium (cmolc/kg soil),Sodium (cmolc/kg soil),Calcium (cmolc/kg soil),Magnesium (cmolc/kg soil),Chlorine (mg/kg)
+G1,"10°56'57""N 125°49'38""E",2.29 km ASL,7.5,10.09,0.62,23,202,0.15,1.15,15.54,2.37,483
+G2,"10°57'49""N 125°49'09""E",2.29 km ASL,7.3,9.63,0.56,31.4,9,0.17,1.27,12.49,3.59,430
+G3,"10°59'34""N 125°47'45""E",1.66 km ASL,7,6.99,0.38,47.7,179,0.1,0..58,9.41,1.23,269

@@ -1,0 +1,80 @@
+﻿name,G1.cladeReads,G2.cladeReads,G3.cladeReads
+Pseudomonadota,1871398,2008893,2785254
+Myxococcota,106466,101073,133312
+Planctomycetota,76320,71993,91991
+Verrucomicrobiota,15664,14841,20459
+Kiritimatiellota,553,533,579
+Chlamydiota,230,220,247
+Candidatus Omnitrophota,169,138,141
+Lentisphaerota,25,28,39
+Acidobacteriota,53234,48068,64844
+Bacteroidota,25583,25959,33817
+Rhodothermota,7656,7397,8478
+Chlorobiota,1750,1585,1769
+Ignavibacteriota,130,98,88
+Balneolota,106,101,131
+Gemmatimonadota,15652,15397,19313
+Fidelibacterota,57,64,63
+Fibrobacterota,47,47,61
+Candidatus Cloacimonadota,4,8,8
+Thermodesulfobacteriota,35497,31954,34391
+Nitrospirota,7967,5940,4880
+Spirochaetota,2840,2707,3362
+Thermomicrobiota,2256,2363,2350
+Campylobacterota,2163,2087,2332
+Bdellovibrionota,770,690,923
+Nitrospinota,460,474,483
+Aquificota,284,249,187
+Chrysiogenota,168,175,164
+Deferribacterota,144,129,125
+Calditrichota,122,112,108
+Atribacterota,82,58,72
+Dictyoglomota,68,48,62
+Caldisericota,57,57,39
+Elusimicrobiota,52,46,52
+Coprothermobacterota,45,80,36
+Thermosulfidibacterota,30,34,20
+Thermodesulfobiota,10,6,18
+Actinomycetota,2067881,2439223,3225675
+Bacillota,71449,71148,75815
+Cyanobacteriota,15390,15547,16277
+Chloroflexota,8429,7867,8649
+Armatimonadota,1296,1419,1532
+Vulcanimicrobiota,1289,1267,1430
+Mycoplasmatota,367,391,368
+Deinococcota,16565,16762,18906
+Synergistota,2136,1962,2177
+Thermotogota,426,429,376
+Candidatus Bipolaricaulota,410,427,399
+Candidatus Saccharibacteria,127,127,144
+Candidatus Fervidibacterota,58,60,48
+Candidatus Absconditibacteriota,16,9,10
+Candidatus Paceibacterota,6,5,5
+Fusobacteriota,144,144,186
+Methanobacteriota,53761,54893,63779
+Thermoplasmatota,120,95,92
+Nitrososphaerota,6983,5475,2291
+Thermoproteota,730,643,674
+Candidatus Micrarchaeota,18,6,5
+Candidatus Nanohalarchaeota,11,3,12
+Nanobdellota,2,NA,NA
+Promethearchaeota,5,10,7
+Chordata,8243,7609,9784
+Heterolobosea,1,NA,1
+Uroviricota,1447,1588,1963
+Peploviricota,187,199,201
+Nucleocytoviricota,100,93,105
+Preplasmiviricota,13,18,17
+Lenarviricota,16,3,2
+Pisuviricota,15,18,21
+Kitrinoviricota,9,13,14
+Negarnaviricota,8,8,17
+Duplornaviricota,4,6,3
+Artverviricota,1,2,5
+Cossaviricota,5,6,10
+Cressdnaviricota,1,7,1
+Hofneiviricota,4,3,NA
+Saleviricota,2,1,NA
+Phixviricota,NA,NA,1
+Dividoviricota,6,4,10
+Taleaviricota,1,1,1
