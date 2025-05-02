@@ -14,11 +14,12 @@ echo -e "#######################################################################
 	
   Example:
 	PE reads: /media/zbl/Storage/mgs(/raw)
-	
+
   Output:
   	1. Concatenated reads in ~/path/filtered_concatenated.
 
-  ©Z.B. Lara, 2024
+  Date: 2025-04-29
+  Author: Z.B. Lara
 
 ######################################################################################"
 
@@ -43,8 +44,8 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Create output directories if they don't exist
-
-# No output to this folder. For further grouping by user only.
+mkdir -p "${DIR}/filtered_concatenated/"
+mkdir -p "${DIR}/filter_human/"
 
 # Function to concatenate paired-end reads
 concatenate_reads() {
@@ -59,27 +60,17 @@ concatenate_reads() {
 
     # Check if the corresponding R2 file exists
     if [ -e "$R2_file" ]; then
-    
+        
         echo -e "\nConcatenating paired end reads for $BASE.\n" $(date -u)
         
-        # Define the output filenames for mapping
+        # Define the output filenames for concatenation
         filtered_1="${DIR}/filter_human/${BASE}_filtered_R1.fastq.gz"
         filtered_2="${DIR}/filter_human/${BASE}_filtered_R2.fastq.gz"
         concatenated="${DIR}/filtered_concatenated/${BASE}_filtered_concatenated.fastq.gz"
         
-    		check_file() {
-    		if [ -f "$1" ]; then
-        		echo "Skipping $2: File $1 already exists."
-        		return 1
-    		else
-        		echo "File $1 does not exist."
-        		return 0
-    		fi
-			}
-        
-        # Check if mapping i/o files already exist
-        if ! check_file "$concatenated" "concatenated output $concatenated" ; then
-            continue
+        # Check if concatenated output file already exists
+        if ! check_file "$concatenated" "concatenated output $concatenated"; then
+            return  # Exit early if the file already exists
         fi
         
         # Execute the command for concatenating paired-end reads
@@ -95,14 +86,10 @@ concatenate_reads() {
 }
 
 export -f concatenate_reads
+export -f check_file
 
 # Find all R1 files and pass them to xargs to run in parallel
-find "${DIR}/filter_human/" -type f -name "*_R1.fastq.gz" | xargs -I {} -P "4" bash -c 'concatenate_reads "$@"' _ "{}" "${DIR}"
-
-# After the script finishes, use "cat" if you wish to further group files.
-# Example: "cat A1_1_filtered_concatenated.fastq.gz A2_1_filtered_concatenated.fastq.gz .... \
-#			> normW0_filtered_concatenated.fastq.gz"
-mkdir -p "${DIR}/filtered_concatenated/"
+find "${DIR}/filter_human/" -type f -name "*_R1.fastq.gz" | xargs -I {} -P 4 bash -c 'concatenate_reads "$@"' _ "{}" "${DIR}"
 
 echo -e "\nPipeline finished." $(date -u)
 echo "Elapsed time: $SECONDS seconds"
