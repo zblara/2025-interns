@@ -14,6 +14,3 @@ To do list:
 	(Hint: https://github.com/zblara/DugesiaAMR)
 4. You will use the output of script #3 (taxonomic annotation) and #4 (AMR annotation) as input to make the bipartite graph.
       Feel free to use any tool you would like, such as gephi, igraph, or whatever package.
-
-
-Cheers! Good luck. If you have any further questions, please message me or send an email at zblara@up.edu.ph
